@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+[[mods]]
+modId="maidduplex"
+version="0.1.0"
+displayName="Maid Duplex Context"
+description='''Opt-in, single-maid context and persona sharing with one DSH conversation. Tools stay in Minecraft.'''
+[[dependencies.maidduplex]]
+modId="forge"
+mandatory=true
+versionRange="[47.4.21,48)"
+ordering="NONE"
+side="SERVER"
+[[dependencies.maidduplex]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.20.2)"
+ordering="NONE"
+side="SERVER"
+[[dependencies.maidduplex]]
+modId="touhou_little_maid"
+mandatory=true
+versionRange="[1.5.3]"
+ordering="AFTER"
+side="SERVER"

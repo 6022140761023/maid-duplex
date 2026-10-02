@@ -1,0 +1,12 @@
+{
+  "name": "dsh-maid-duplex",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "bootstrap.mjs",
+  "scripts": { "test": "node --test test/*.test.mjs" },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-system-prompt": "*",
+    "@deepseek-ai/dsh-tools": "*"
+  }
+}

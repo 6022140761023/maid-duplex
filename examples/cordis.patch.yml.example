@@ -1,0 +1,9 @@
+# Merge this entry into the host profile; do not overwrite other plugins.
+# Replace paths with your own absolute paths, then restart DSH.
+- insert:
+    - id: maid-duplex-controls
+      name: dsh-maid-duplex
+      config:
+        dataDir: 'C:/path/to/private/maid-duplex-data'
+        runtimeRoot: 'C:/path/to/DSH/node_modules'
+        port: 8790

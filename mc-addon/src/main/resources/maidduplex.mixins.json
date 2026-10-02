@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "local.maidbridge.duplex.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "maidduplex.refmap.json",
+  "mixins": ["MaidChatMixin", "CallbackMixin", "OpenAIClientMixin"],
+  "injectors": { "defaultRequire": 1 }
+}

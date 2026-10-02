@@ -1,0 +1,8 @@
+# Copy values from your PRIVATE pairing file after Minecraft has closed.
+# Do not copy this example into another save with real pairing values.
+enabled = false
+binding = "REPLACE_WITH_BINDING"
+token = "REPLACE_WITH_PRIVATE_PAIRING_TOKEN"
+worldId = "REPLACE_WITH_WORLD_ID"
+playerUuid = "REPLACE_WITH_OWNER_UUID"
+maidUuid = "REPLACE_WITH_MAID_UUID"

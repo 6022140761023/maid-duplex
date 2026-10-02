@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
+}
+
+group = 'local.maidbridge'
+version = '0.1.0'
+base { archivesName = 'maid-duplex' }
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+}
+repositories {
+    maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
+    flatDir { dirs providers.gradleProperty('tlmDir').getOrElse('libs') }
+}
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.1-47.4.21'
+    // Supply the ORIGINAL TLM 1.5.3 jar, never a patched game jar.
+    implementation fg.deobf('local.tlm:touhoulittlemaid:1.5.3-forge+mc1.20.1')
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+mixin { add sourceSets.main, 'maidduplex.refmap.json'; config 'maidduplex.mixins.json' }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+jar {
+    manifest.attributes('MixinConfigs': 'maidduplex.mixins.json')
+    finalizedBy 'reobfJar'
+}
+tasks.register('promptTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'local.maidbridge.duplex.PromptPolicyTest'
+}
+tasks.register('providerTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'local.maidbridge.duplex.ProviderPolicyTest'
+}
+tasks.register('bridgeTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'local.maidbridge.duplex.BridgeClientTest'
+}
+tasks.register('verifyModPackMetadata') {
+    dependsOn jar
+    doLast {
+        def archive = new java.util.zip.ZipFile(tasks.jar.archiveFile.get().asFile)
+        try {
+            def entry = archive.getEntry('pack.mcmeta')
+            if (entry == null) throw new GradleException('Mod JAR is missing root pack.mcmeta')
+            def metadata = new groovy.json.JsonSlurper().parse(archive.getInputStream(entry))
+            if (metadata.pack?.pack_format != 15) {
+                throw new GradleException('Mod JAR pack.mcmeta must use pack_format 15 for Minecraft 1.20.1')
+            }
+        } finally {
+            archive.close()
+        }
+    }
+}
+tasks.named('check') { dependsOn 'promptTest', 'providerTest', 'bridgeTest', 'verifyModPackMetadata' }

@@ -1,0 +1,12 @@
+{
+  "name": "maid-duplex-repository",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "npm run test:dsh && npm run test:mc",
+    "test:dsh": "node --test dsh-plugin/test/duplex.test.mjs",
+    "test:mc": "node scripts/test-mc.mjs"
+  },
+  "engines": { "node": ">=22" }
+}
